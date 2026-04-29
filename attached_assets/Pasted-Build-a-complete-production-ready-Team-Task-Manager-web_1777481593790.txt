@@ -1,0 +1,94 @@
+Build a complete, production-ready Team Task Manager web application.
+Tech Stack: Node.js + Express.js backend, PostgreSQL database (using pg library), JWT authentication with bcrypt, React frontend (Vite), deployable on Railway.
+PROJECT STRUCTURE:
+/
+├── server/
+│   ├── index.js
+│   ├── db.js
+│   ├── middleware/auth.js
+│   ├── middleware/role.js
+│   ├── routes/auth.js
+│   ├── routes/projects.js
+│   ├── routes/tasks.js
+│   ├── routes/users.js
+│   ├── routes/dashboard.js
+│   └── schema.sql
+├── client/
+│   ├── src/
+│   │   ├── pages/Login.jsx
+│   │   ├── pages/Signup.jsx
+│   │   ├── pages/Dashboard.jsx
+│   │   ├── pages/Projects.jsx
+│   │   ├── pages/ProjectDetail.jsx
+│   │   ├── components/Navbar.jsx
+│   │   ├── components/TaskCard.jsx
+│   │   ├── components/StatusBadge.jsx
+│   │   ├── api.js
+│   │   └── App.jsx
+├── .env.example
+├── railway.toml
+├── package.json
+└── README.md
+DATABASE SCHEMA — auto-run this on server startup:
+CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, name VARCHAR(100) NOT NULL, email VARCHAR(150) UNIQUE NOT NULL, password_hash TEXT NOT NULL, role VARCHAR(20) DEFAULT 'member' CHECK (role IN ('admin', 'member')), created_at TIMESTAMP DEFAULT NOW());
+CREATE TABLE IF NOT EXISTS projects (id SERIAL PRIMARY KEY, name VARCHAR(200) NOT NULL, description TEXT, owner_id INTEGER REFERENCES users(id) ON DELETE SET NULL, created_at TIMESTAMP DEFAULT NOW());
+CREATE TABLE IF NOT EXISTS project_members (project_id INTEGER REFERENCES projects(id) ON DELETE CASCADE, user_id INTEGER REFERENCES users(id) ON DELETE CASCADE, PRIMARY KEY (project_id, user_id));
+CREATE TABLE IF NOT EXISTS tasks (id SERIAL PRIMARY KEY, title VARCHAR(300) NOT NULL, description TEXT, status VARCHAR(30) DEFAULT 'todo' CHECK (status IN ('todo', 'in_progress', 'done')), priority VARCHAR(20) DEFAULT 'medium' CHECK (priority IN ('low', 'medium', 'high')), due_date DATE, project_id INTEGER REFERENCES projects(id) ON DELETE CASCADE, assignee_id INTEGER REFERENCES users(id) ON DELETE SET NULL, created_by INTEGER REFERENCES users(id) ON DELETE SET NULL, created_at TIMESTAMP DEFAULT NOW());
+AUTH ROUTES:
+POST /api/auth/signup — body: { name, email, password, role } — validate email format and password min 6 chars, hash password with bcrypt, return JWT + user object. Role defaults to member.
+POST /api/auth/login — body: { email, password } — return JWT + user object.
+GET /api/auth/me — protected, return current user from token.
+JWT MIDDLEWARE: Create middleware/auth.js that reads Bearer token from Authorization header, verifies it, attaches decoded user to req.user. Create middleware/role.js that accepts a role string and blocks access if req.user.role does not match.
+PROJECTS ROUTES (all protected):
+GET /api/projects — members see only their projects, admins see all. Include member count and task count.
+POST /api/projects — admin only. Body: { name, description }. Auto-add creator as member.
+GET /api/projects/:id — return project + members list + tasks. Only accessible to project members or admins.
+PUT /api/projects/:id — admin only. Update name/description.
+DELETE /api/projects/:id — admin only.
+POST /api/projects/:id/members — admin only. Body: { userId }. Add user to project.
+DELETE /api/projects/:id/members/:userId — admin only. Remove user from project.
+TASKS ROUTES (all protected):
+GET /api/tasks — supports query params: projectId, assigneeId, status, overdue=true. Members see tasks in their projects only, admins see all.
+POST /api/tasks — admin only. Body: { title, description, projectId, assigneeId, priority, dueDate }. Validate that assignee is a member of the project.
+GET /api/tasks/:id — return task with assignee info and project info.
+PUT /api/tasks/:id — admins can update any field, members can only update status field on their own assigned tasks.
+DELETE /api/tasks/:id — admin only.
+USERS ROUTES:
+GET /api/users — admin only. Return list of all users (id, name, email, role).
+GET /api/users/:id — admin or the user themselves only.
+DASHBOARD ROUTE:
+GET /api/dashboard — return: { totalProjects, totalTasks, tasksByStatus: { todo, in_progress, done }, overdueTasks (due_date < today AND status != done), recentTasks, myTasks }
+HEALTH ROUTE:
+GET /api/health — return { status: "ok" } — no auth required.
+VALIDATIONS:
+All inputs validated server-side. Return 400 for bad input, 401 for unauthenticated, 403 for forbidden, 404 for not found. Assignee must be a project member. Never store plain text passwords.
+FRONTEND PAGES:
+
+Login/Signup — toggle between forms, store JWT in localStorage, redirect to dashboard on success.
+Dashboard — summary cards for Total Projects, Total Tasks, In Progress, Overdue count. Show overdue tasks list with red highlight. Show my assigned tasks. Show task status breakdown.
+Projects Page — grid of project cards showing name, description, member count, task count. New Project button visible to admins only.
+Project Detail Page — project name and description (editable for admin). Members list with Add Member button (admin only). Tasks table with columns: Title, Assignee, Priority, Status, Due Date. Add Task button (admin only). Filter tabs: All, To Do, In Progress, Done. Overdue tasks highlighted in red.
+Task Modal — view and edit task. Status dropdown (members can change status on their own tasks). Priority badge with color coding (high=red, medium=yellow, low=green). Due date with overdue warning.
+
+NAVBAR: Show Dashboard and Projects links for all users. Show Users link for admins only. Display logged-in user name with role badge. Logout button clears localStorage and redirects to login.
+ROLE-BASED ACCESS SUMMARY:
+Admins can: create/delete projects, add/remove members, create/delete/fully edit tasks, view all users.
+Members can: view their own projects and tasks, update status on their own assigned tasks only.
+FRONTEND API LAYER: Create client/src/api.js using axios with a base URL pointing to the backend. Attach JWT from localStorage to every request Authorization header automatically. Handle 401 responses by clearing token and redirecting to login.
+SEEDING: Create a seed script (npm run seed) that inserts: admin user (admin@demo.com / admin123), member Alice (alice@demo.com / member123), member Bob (bob@demo.com / member123), 2 sample projects, 8 sample tasks with varied statuses, priorities, and some with past due dates to show overdue functionality.
+DEPLOYMENT CONFIG:
+railway.toml:
+[build]
+builder = "nixpacks"
+[deploy]
+startCommand = "npm start"
+healthcheckPath = "/api/health"
+.env.example:
+DATABASE_URL=postgresql://user:password@host:5432/dbname
+JWT_SECRET=your_super_secret_key
+PORT=3000
+NODE_ENV=production
+package.json scripts must include: "start": "node server/index.js", "dev": "nodemon server/index.js", "seed": "node server/seed.js", "build": "cd client && npm install && npm run build"
+In production, Express must serve the React build folder as static files and fall back to index.html for client-side routing.
+README must include: project overview, tech stack, local setup steps, all API endpoints listed, live Railway URL placeholder, GitHub repo placeholder, test credentials for admin and member accounts.
+Build order: schema and DB connection first, then auth routes and middleware, then projects routes, then tasks routes, then dashboard route, then users route, then React frontend page by page, then deployment config, then seed script. Test each API route before moving to the next. Make sure the entire app runs with npm start and is ready to deploy to Railway.
