@@ -9,8 +9,8 @@ https://github.com/Rana0777/Team_Task_Manager-ETHARA-AI
 
 
 1. Project Overview
-
-Team Task Manager is a full-stack web application for managing projects, team members, and tasks with role-based access control.
+ 
+Team Task Manager is a full-stack web application for managing projects, team members, and tasks with role-based access control .
 
 Admins can create projects, add or remove project members, create tasks, assign work, update project/task details, and view all users.
 
