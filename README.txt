@@ -4,7 +4,8 @@ Live Application URL:
 https://workspaceapi-server-production-b330.up.railway.app
 
 GitHub Repository:
-https://github.com/sreejameesa/team-task-manager
+https://github.com/Rana0777/Team_Task_Manager-ETHARA-AI
+
 
 
 1. Project Overview
