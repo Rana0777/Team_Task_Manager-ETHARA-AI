@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "export NODE_ENV=development && pnpm run build && pnpm run start",
+    "dev": "node -e \"process.env.NODE_ENV='development'; const { spawnSync } = require('node:child_process'); const run = (args) => { const result = spawnSync('corepack', ['pnpm', ...args], { stdio: 'inherit', shell: true }); if (result.status) process.exit(result.status); }; run(['run', 'build']); run(['run', 'start']);\"",
     "build": "node ./build.mjs",
     "start": "node --enable-source-maps ./dist/index.mjs",
     "typecheck": "tsc -p tsconfig.json --noEmit"

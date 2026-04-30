@@ -19,7 +19,7 @@ router.post("/auth/signup", async (req, res): Promise<void> => {
     res.status(400).json({ error: parsed.error.message });
     return;
   }
-  const { name, email, password, role } = parsed.data;
+  const { name, email, password } = parsed.data;
   if (!isValidEmail(email)) {
     res.status(400).json({ error: "Invalid email format" });
     return;
@@ -38,10 +38,9 @@ router.post("/auth/signup", async (req, res): Promise<void> => {
     return;
   }
   const passwordHash = await hashPassword(password);
-  const finalRole = role === "admin" ? "admin" : "member";
   const [created] = await db
     .insert(usersTable)
-    .values({ name, email: normalizedEmail, passwordHash, role: finalRole })
+    .values({ name, email: normalizedEmail, passwordHash, role: "member" })
     .returning();
   const user = serializeUser(created);
   const token = signToken({ id: user.id, email: user.email, role: user.role, name: user.name });

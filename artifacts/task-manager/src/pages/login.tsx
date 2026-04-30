@@ -9,7 +9,6 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 
 const loginSchema = z.object({
@@ -21,7 +20,6 @@ const signupSchema = z.object({
   name: z.string().min(2, "Name is required"),
   email: z.string().email("Please enter a valid email"),
   password: z.string().min(6, "Password must be at least 6 characters"),
-  role: z.enum(["admin", "member"]),
 });
 
 type LoginValues = z.infer<typeof loginSchema>;
@@ -45,7 +43,7 @@ export default function LoginPage() {
   });
   const signupForm = useForm<SignupValues>({
     resolver: zodResolver(signupSchema),
-    defaultValues: { name: "", email: "", password: "", role: "member" },
+    defaultValues: { name: "", email: "", password: "" },
   });
 
   const onLogin = async (values: LoginValues) => {
@@ -185,25 +183,6 @@ export default function LoginPage() {
                           <FormItem>
                             <FormLabel>Password</FormLabel>
                             <FormControl><Input type="password" data-testid="input-signup-password" {...field} /></FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={signupForm.control}
-                        name="role"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Role</FormLabel>
-                            <Select onValueChange={field.onChange} value={field.value}>
-                              <FormControl>
-                                <SelectTrigger data-testid="select-signup-role"><SelectValue /></SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                <SelectItem value="member">Member</SelectItem>
-                                <SelectItem value="admin">Admin</SelectItem>
-                              </SelectContent>
-                            </Select>
                             <FormMessage />
                           </FormItem>
                         )}
