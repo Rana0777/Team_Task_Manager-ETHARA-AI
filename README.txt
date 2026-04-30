@@ -1,10 +1,10 @@
 TEAM TASK MANAGER
 
 Live Application URL:
-TODO: Add Railway live URL after deployment
+https://workspaceapi-server-production-b330.up.railway.app
 
 GitHub Repository:
-TODO: Add GitHub repository link after pushing the code
+https://github.com/sreejameesa/team-task-manager
 
 
 1. Project Overview
@@ -263,8 +263,7 @@ corepack pnpm run db:seed
 
 12. Submission Checklist
 
-- Live URL: TODO
-- GitHub Repository Link: TODO
+- Live URL: https://workspaceapi-server-production-b330.up.railway.app
+- GitHub Repository Link: https://github.com/sreejameesa/team-task-manager
 - README.txt: included
-- Demo Video: TODO
-
+- Demo Video: To be recorded and uploaded separately
