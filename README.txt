@@ -1,270 +1,265 @@
-TEAM TASK MANAGER
+# 🚀 Team Task Manager (Full-Stack Project)
 
-Live Application URL:
+🔗 **Live Demo:** https://workspaceapi-server-production-b330.up.railway.app 
+📦 **GitHub Repository:** https://github.com/Rana0777/Team_Task_Manager-ETHARA-AI
 
+---
 
-GitHub Repository:
-https://github.com/Rana0777/Team_Task_Manager-ETHARA-AI
+## 📌 Project Overview
 
+**Team Task Manager** is a full-stack web application designed to manage projects, teams, and tasks efficiently using **role-based access control (RBAC)**.
 
+It allows admins to manage projects and assign tasks, while members can track and update their assigned work. The application provides a real-time dashboard for productivity tracking and task monitoring.
 
-1. Project Overview
- 
-Team Task Manager is a full-stack web application for managing projects, team members, and tasks with role-based access control .
+---
 
-Admins can create projects, add or remove project members, create tasks, assign work, update project/task details, and view all users.
+## 🎯 Why This Project?
 
-Members can log in, view only their assigned/visible projects, track project tasks, and update the status of tasks assigned to them.
+This project demonstrates:
 
-The dashboard gives a quick overview of total projects, total tasks, tasks by status, overdue tasks, recent tasks, and the current user's assigned work.
+* 🔐 Secure authentication using JWT & bcrypt
+* 🧑‍🤝‍🧑 Role-Based Access Control (Admin & Member)
+* ⚙️ Scalable backend architecture (REST API)
+* 📊 Real-time dashboard with task insights
+* 🗄️ Relational database design with PostgreSQL
+* 🌐 Full-stack integration (Frontend + Backend + DB)
 
+---
 
-2. Key Features
+## ✨ Key Features
 
-- Signup and login with JWT authentication
-- Password hashing with bcrypt
-- Admin and Member roles
-- Project creation and management
-- Project team/member management
-- Task creation, assignment, priority, due dates, and status tracking
-- Dashboard with overdue tasks, recent tasks, my tasks, and status breakdown
-- REST API backend
-- PostgreSQL database with relational schema
-- Zod request/response validation
-- React frontend with protected routes
-- Railway deployment configuration included
+### 🔐 Authentication & Security
 
+* User signup and login with JWT authentication
+* Password hashing using bcrypt
+* Protected routes on frontend
 
-3. Tech Stack
+### 👥 Role-Based Access Control
 
-Frontend:
-- React
-- Vite
-- TypeScript
-- Wouter
-- TanStack Query
-- Tailwind CSS
-- shadcn/ui style components
+* **Admin:**
 
-Backend:
-- Node.js
-- Express 5
-- TypeScript
-- JWT authentication
-- bcryptjs
-- Zod validation
+  * Create/edit/delete projects
+  * Add/remove team members
+  * Assign and manage tasks
+  * View all users and analytics
 
-Database:
-- PostgreSQL
-- Drizzle ORM
+* **Member:**
 
-Tooling:
-- pnpm workspace monorepo
-- Drizzle Kit
-- Orval generated API client
-- Railway config-as-code
+  * View assigned projects
+  * Update task status
+  * Track personal dashboard
 
+---
 
-4. Demo Credentials
+### 📁 Project Management
 
-Admin:
-Email: admin@demo.com
-Password: admin123
+* Create and manage multiple projects
+* Add/remove team members
+* Track project progress
 
-Member 1:
-Email: alice@demo.com
-Password: member123
+### ✅ Task Management
 
-Member 2:
-Email: bob@demo.com
-Password: member123
+* Assign tasks with priority & deadlines
+* Track task status (todo, in_progress, done)
+* Filter tasks by project, user, or status
+* Overdue task tracking
 
+### 📊 Dashboard
 
-5. Local Setup
+* Total projects & tasks overview
+* Task status breakdown
+* Overdue tasks
+* Recent activity
+* Personal task tracking
 
-Prerequisites:
-- Node.js 24
-- Corepack enabled
-- PostgreSQL database
-- pnpm via Corepack
+---
 
-Install dependencies:
+## 🛠️ Tech Stack
+
+### Frontend
+
+* React
+* Vite
+* TypeScript
+* Wouter
+* TanStack Query
+* Tailwind CSS
+* shadcn/ui
+
+### Backend
+
+* Node.js
+* Express.js (v5)
+* TypeScript
+* JWT Authentication
+* bcryptjs
+* Zod validation
+
+### Database
+
+* PostgreSQL
+* Drizzle ORM
+
+### Tooling
+
+* pnpm (monorepo setup)
+* Orval API client
+* Drizzle Kit
+* Railway deployment
+
+---
+
+## 🧪 Demo Access
+
+⚠️ *Demo credentials are intentionally not public for security reasons.*
+👉 Please use signup or contact for test access.
+
+---
+
+## ⚙️ Local Setup Guide
+
+### Prerequisites
+
+* Node.js (v24 recommended)
+* PostgreSQL
+* Corepack enabled
+
+---
+
+### 1️⃣ Install Dependencies
+
+```bash
 corepack pnpm install
+```
 
-Required environment variables:
+### 2️⃣ Setup Environment Variables
+
+```env
 DATABASE_URL=postgresql://user:password@host:5432/database
 JWT_SECRET=your_secure_jwt_secret
 NODE_ENV=development
 PORT=3000
+```
 
-Push database schema:
+### 3️⃣ Setup Database
+
+```bash
 corepack pnpm run db:push
-
-Seed demo data:
 corepack pnpm run db:seed
+```
 
-Build the app:
+### 4️⃣ Run Application
+
+```bash
 corepack pnpm run build
-
-Start the production server:
 corepack pnpm start
+```
 
-Health check:
-GET /api/healthz
+---
 
+## 🚀 Deployment (Railway)
 
-6. Railway Deployment
+This project is fully deployable using Railway.
 
-This repository includes railway.json with build and start commands.
+### Steps:
 
-Railway environment variables:
-DATABASE_URL=<Railway PostgreSQL connection string>
-JWT_SECRET=<secure random secret>
-NODE_ENV=production
+1. Push repo to GitHub
+2. Create Railway project
+3. Add PostgreSQL service
+4. Deploy repo
+5. Add environment variables
+6. Run:
 
-Deployment steps:
-1. Push the repository to GitHub.
-2. Create a new Railway project.
-3. Add a PostgreSQL service.
-4. Deploy the GitHub repository as the app service.
-5. Set the app service environment variables listed above.
-6. Let Railway run the build command:
-   corepack pnpm run build
-7. Railway starts the app with:
-   corepack pnpm start
-8. After deployment, run the database commands from Railway shell or local terminal with Railway env loaded:
-   corepack pnpm run db:push
-   corepack pnpm run db:seed
-9. Open the public Railway URL and log in with the demo credentials.
+```bash
+corepack pnpm run db:push
+corepack pnpm run db:seed
+```
 
-The Express server serves both:
-- REST API under /api
-- Built React frontend for browser routes such as /login, /dashboard, /projects
+---
 
+## 🔗 API Overview
 
-7. API Endpoints
+Base URL:
 
-Base path:
+```
 /api
+```
 
-Health:
-GET /healthz
+### Auth
 
-Auth:
-POST /auth/signup
-POST /auth/login
-GET /auth/me
+* POST `/auth/signup`
+* POST `/auth/login`
+* GET `/auth/me`
 
-Projects:
-GET /projects
-POST /projects
-GET /projects/:id
-PUT /projects/:id
-DELETE /projects/:id
-POST /projects/:id/members
-DELETE /projects/:id/members/:userId
+### Projects
 
-Tasks:
-GET /tasks
-GET /tasks?projectId=:id
-GET /tasks?assigneeId=:id
-GET /tasks?status=todo
-GET /tasks?overdue=true
-POST /tasks
-GET /tasks/:id
-PUT /tasks/:id
-DELETE /tasks/:id
+* GET `/projects`
+* POST `/projects`
+* PUT `/projects/:id`
+* DELETE `/projects/:id`
 
-Users:
-GET /users
-GET /users/:id
+### Tasks
 
-Dashboard:
-GET /dashboard
+* GET `/tasks`
+* POST `/tasks`
+* PUT `/tasks/:id`
+* DELETE `/tasks/:id`
 
+### Dashboard
 
-8. Role-Based Access Control
+* GET `/dashboard`
 
-Admin permissions:
-- Create projects
-- Edit/delete projects
-- Add/remove project members
-- Create tasks
-- Edit/delete tasks
-- Assign tasks
-- View all users
-- View all projects and dashboard data
+---
 
-Member permissions:
-- View projects where they are a member
-- View tasks in visible projects
-- Update status only for tasks assigned to them
-- View their own dashboard data
+## 🗄️ Database Design
 
-Public signup creates Member accounts only. Admin accounts are created through seed/provisioning data.
+* **users** → stores user data & roles
+* **projects** → project details
+* **project_members** → mapping users ↔ projects
+* **tasks** → task details with assignment
 
+---
 
-9. Database Relationships
+## ✅ Validation & Data Integrity
 
-users:
-- Stores user profile, email, password hash, role, created date
+* Request validation using Zod
+* Strong type safety (TypeScript)
+* Role-based permission checks
+* Only valid members can be assigned tasks
 
-projects:
-- Stores project name, description, owner, created date
-- owner_id references users.id
+---
 
-project_members:
-- Join table between projects and users
-- project_id references projects.id
-- user_id references users.id
+## 📸 Screenshots (Add Your Images Here)
 
-tasks:
-- Stores title, description, status, priority, due date, project, assignee, creator
-- project_id references projects.id
-- assignee_id references users.id
-- created_by references users.id
+> Add screenshots of:
 
+* Dashboard
+* Project Page
+* Task Management UI
 
-10. Validation
+---
 
-The backend validates request bodies and route/query parameters using generated Zod schemas from the OpenAPI specification.
+## 📈 Future Improvements
 
-Examples:
-- Invalid email format is rejected during signup.
-- Password must be at least 6 characters.
-- Task status must be one of todo, in_progress, done.
-- Task priority must be one of low, medium, high.
-- Assignees must be project members.
-- Members can only update status for their assigned tasks.
+* Notifications system
+* Real-time updates (WebSockets)
+* File attachments in tasks
+* Activity logs
+* AI-based task suggestions
 
+---
 
-11. Useful Commands
+## 👨‍💻 Author
 
-Install:
-corepack pnpm install
+**Yuvraj Singh**
+📧 [yuvrajsingh857603@gmail.com](mailto:yuvrajsingh857603@gmail.com)
 
-Typecheck:
-corepack pnpm run typecheck
+---
 
-Build:
-corepack pnpm run build
+## ⭐ Final Note
 
-Start:
-corepack pnpm start
+This project reflects strong fundamentals in **full-stack development, backend design, and scalable architecture**, making it suitable for real-world team collaboration systems.
 
-Push database schema:
-corepack pnpm run db:push
+---
 
-Force push database schema:
-corepack pnpm run db:push-force
-
-Seed demo data:
-corepack pnpm run db:seed
-
-
-12. Submission Checklist
-
-- Live URL: https://workspaceapi-server-production-b330.up.railway.app
-- GitHub Repository Link: https://github.com/sreejameesa/team-task-manager
-- README.txt: included
-- Demo Video: To be recorded and uploaded separately
+⭐ *If you like this project, consider giving it a star!*
