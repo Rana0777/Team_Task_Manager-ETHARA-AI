@@ -1,7 +1,7 @@
 TEAM TASK MANAGER
 
 Live Application URL:
-https://workspaceapi-server-production-b330.up.railway.app
+
 
 GitHub Repository:
 https://github.com/Rana0777/Team_Task_Manager-ETHARA-AI
